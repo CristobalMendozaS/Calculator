@@ -86,7 +86,7 @@
 
 <body>
 <div class="calculator-container">
-    <input type="text" placeholder="0" class="screen">
+    <input type="text" placeholder="" class="screen">
     <button type="button" id='49' class="buttonsdesing">1</button>
     <button type="button" id='50' class="buttonsdesing">2</button>
     <button type="button" id='51' class="buttonsdesing">3</button>
@@ -112,14 +112,9 @@ let   screen=document.querySelector('.screen');
 
 function displayOnScreen(e){
     let   currentData=screen.getAttribute('placeholder');
-    if(currentData=="0"){
-        screen.setAttribute('placeholder',e.target.textContent);
-    }
-
-    else{
     currentData=currentData+e.target.textContent;
     screen.setAttribute('placeholder',currentData);
-    }
+    
 }
 
 function displayOnScreenByKeyboard(e){
@@ -137,13 +132,8 @@ function displayOnScreenByKeyboard(e){
     let currentData=screen.getAttribute('placeholder');
 
 
-    if(currentData=="0"){
-        screen.setAttribute('placeholder',node.textContent);
-    }
-    else{
     currentData=currentData+node.textContent;
     screen.setAttribute('placeholder',currentData);
-    }
     }
     else{
         return;
@@ -161,22 +151,18 @@ function specialButtonsActions(e){
     break;
     
     case 'C':
-    screen.setAttribute('placeholder',0);
+    screen.setAttribute('placeholder',"");
     break;
 
     case flecha:
     let last=currentData.length-1;
     let deleteData=currentData.replace(currentData[last],"");
-    if(deleteData==""){
-        deleteData="0"
-    }
     screen.setAttribute('placeholder',deleteData);
     break; 
     }
 }
 
 function specialButtonsActionsByKey(e){
-    
     let currentData=screen.getAttribute('placeholder');
     let flecha=String.fromCharCode(8594);
     let node=document.querySelector(`button[id="${e.keyCode}"]`);
@@ -187,15 +173,12 @@ function specialButtonsActionsByKey(e){
     break;
     
     case 'C':
-    screen.setAttribute('placeholder',0);
+    screen.setAttribute('placeholder',"");
     break;
 
     case flecha:
     let last=currentData.length-1;
     let deleteData=currentData.replace(currentData[last],"");
-    if(deleteData==""){
-        deleteData="0"
-    }
     screen.setAttribute('placeholder',deleteData);
     break; 
     }

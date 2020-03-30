@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="reset.css" rel="stylesheet" type="text/css" media="all">
+    <title>Calculator</title>
+
+    <style>
+    html,body{
+        margin:0;
+        padding:0;
+    }
+    
+    body {
+        font-size:16px;
+        background:url(https://wallpaperaccess.com/full/800698.jpg);
+        background-size:cover;
+        background-repeat:no-repeat ;     
+    }
+    .calculator-container {
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:550px;
+        height:600px;
+        transform: translate(-50%, -50%);
+        display:grid;
+        background: rgb(63,94,251);
+        background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+        justify-items: center;
+        align-items: center;
+        grid-template-columns:repeat(4,auto);
+        border:solid rgb(138, 138, 138);
+        border-radius:15px;
+        padding:.5%;
+        box-shadow: 11px 5px 25px 22px rgba(0,0,0,0.87);
+    }
+
+    .screen {
+        grid-column: span 4;
+        font-size:2.5rem;
+        border:solid rgb(72, 255, 0);
+        width:95%;
+        height:75%;
+        text-align: right;
+        margin:0;
+        padding:0;
+        border-radius: 8px;
+        font-weight:bold;
+        background-color: greenyellow;
+    }
+
+
+    .specialButtons {
+        grid-column: span 2;
+    }
+
+    .buttonsdesing {
+    box-shadow:inset 0px 1px 0px 0px #fce2c1;
+	background:linear-gradient(to bottom, #ffc477 5%, #fb9e25 100%);
+	background-color:#ffc477;
+	border-radius:6px;
+	border:1px solid #eeb44f;
+	color:black;
+	font-family:Arial;
+	font-size:1.5rem;
+	font-weight:bold;
+    margin:0;
+    padding:0;
+    width:80%;
+    height:70%;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #cc9f52;
+}
+
+    .buttonsdesing:hover {
+
+        color: #FFFFFF;
+        border-color: yellow;
+        transform: scale(1.1);
+    }
+
+    </style>
+</head>
+
+<body>
+<div class="calculator-container">
+    <input type="text" placeholder="0" class="screen">
+    <button type="button" id='49' class="buttonsdesing">1</button>
+    <button type="button" id='50' class="buttonsdesing">2</button>
+    <button type="button" id='51' class="buttonsdesing">3</button>
+    <button type="button" id='187' class="buttonsdesing">+</button>
+    <button type="button" id='52' class="buttonsdesing">4</button>
+    <button type="button" id='53' class="buttonsdesing">5</button>
+    <button type="button" id='54' class="buttonsdesing">6</button>
+    <button type="button" id='189' class="buttonsdesing">-</button>
+    <button type="button" id='55' class="buttonsdesing">7</button>
+    <button type="button" id='56' class="buttonsdesing">8</button>
+    <button type="button" id='57' class="buttonsdesing">9</button>
+    <button type="button" id='mult' class="buttonsdesing">*</button>
+    <button type="button" id='48' class="buttonsdesing">0</button>
+    <button type="button" id='190' class="buttonsdesing">.</button>
+    <button type="button" id='8' class="buttonsdesing">C</button>
+    <button type="button" id='div' class="buttonsdesing">/</button>
+    <button type="button" id='13' class="buttonsdesing specialButtons">=</button>
+    <button type="button" id='39' class="buttonsdesing specialButtons">&rarr;</button>   
+</div>
+<script>
+
+let   screen=document.querySelector('.screen');
+
+function displayOnScreen(e){
+    let   currentData=screen.getAttribute('placeholder');
+    if(currentData=="0"){
+        screen.setAttribute('placeholder',e.target.textContent);
+    }
+
+    else{
+    currentData=currentData+e.target.textContent;
+    screen.setAttribute('placeholder',currentData);
+    }
+}
+
+function displayOnScreenByKeyboard(e){
+    let numbers=['1','2','3','4','5','6','7','8','9','0','+','-','*','/','.']
+    if(numbers.includes(e.key)){    
+    let node=document.querySelector(`button[id="${e.keyCode}"]`);
+
+    if(e.shiftKey && e.keyCode=='187'){
+    node=document.querySelector(`button[id="mult"]`);
+    }
+    else if(e.shiftKey && e.keyCode=='55'){
+    node=document.querySelector(`button[id="div"]`)
+    }
+    
+    let currentData=screen.getAttribute('placeholder');
+
+
+    if(currentData=="0"){
+        screen.setAttribute('placeholder',node.textContent);
+    }
+    else{
+    currentData=currentData+node.textContent;
+    screen.setAttribute('placeholder',currentData);
+    }
+    }
+    else{
+        return;
+    }
+      
+}
+
+function specialButtonsActions(e){
+    let currentData=screen.getAttribute('placeholder');
+    let flecha=String.fromCharCode(8594);
+    switch(e.target.textContent){
+    case '=':
+    let result=eval(currentData);
+    screen.setAttribute('placeholder',result);
+    break;
+    
+    case 'C':
+    screen.setAttribute('placeholder',0);
+    break;
+
+    case flecha:
+    let last=currentData.length-1;
+    let deleteData=currentData.replace(currentData[last],"");
+    if(deleteData==""){
+        deleteData="0"
+    }
+    screen.setAttribute('placeholder',deleteData);
+    break; 
+    }
+}
+
+function specialButtonsActionsByKey(e){
+    
+    let currentData=screen.getAttribute('placeholder');
+    let flecha=String.fromCharCode(8594);
+    let node=document.querySelector(`button[id="${e.keyCode}"]`);
+    switch(node.textContent){
+    case '=':
+    let result=eval(currentData);
+    screen.setAttribute('placeholder',result);
+    break;
+    
+    case 'C':
+    screen.setAttribute('placeholder',0);
+    break;
+
+    case flecha:
+    let last=currentData.length-1;
+    let deleteData=currentData.replace(currentData[last],"");
+    if(deleteData==""){
+        deleteData="0"
+    }
+    screen.setAttribute('placeholder',deleteData);
+    break; 
+    }
+}
+
+
+
+
+let numbers=['1','2','3','4','5','6','7','8','9','0','+','-','*','/','.']
+let AllButtons=Array.from(document.querySelectorAll('.buttonsdesing'));
+let buttons=AllButtons.filter(val=>numbers.includes(val.textContent)==true);
+
+let specialButtons=AllButtons.filter(val=>numbers.includes(val.textContent)==false);
+specialButtons.forEach(node=>node.addEventListener('click',specialButtonsActions))
+buttons.forEach(node=>node.addEventListener('click',displayOnScreen));
+window.addEventListener('keydown',displayOnScreenByKeyboard)
+window.addEventListener('keydown',specialButtonsActionsByKey)
+</script>    
+</body>
+</html>
